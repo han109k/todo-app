@@ -1,29 +1,14 @@
 import React, { useState, useEffect } from "react";
 import EditToDo from "./EditTodo";
 
-const ListTodo = () => {
+const ListTodo = ({ data, setWatchTodos }) => {
   const [todos, setTodos] = useState([]);
-  const [disable, setDisable] = useState("disabled");
-
-  const getTodos = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/todo");
-      const todoArray = await response.json();
-      console.log(todoArray);
-      setTodos(todoArray); 
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const editTodo = () => {
-    setDisable('');
-  }
 
   const deleteTodo = async (id) => {
     try {
-      await fetch(`http://localhost:3001/todo/${id}`, {
+      await fetch(`http://localhost:3001/dashboard/todos/${id}`, {
         method: "DELETE",
+        headers: { token: localStorage.token },
       });
       setTodos(todos.filter((todo) => todo.todo_id !== id));
     } catch (error) {
@@ -32,8 +17,9 @@ const ListTodo = () => {
   };
 
   useEffect(() => {
-    getTodos();
-  }, []);
+    setTodos(data);
+    console.log(data);
+  }, [data]);
 
   return (
     <>
@@ -46,15 +32,14 @@ const ListTodo = () => {
           </tr>
         </thead>
         <tbody>
-          {todos &&
+          {todos.length !== 0 &&
+            todos[0].todo_id !== null &&
             todos.map((todo) => {
               return (
                 <tr key={todo.todo_id}>
+                  <td>{todo.description}</td>
                   <td>
-                    {todo.description}
-                  </td>
-                  <td>
-                    <EditToDo todo={todo}/>
+                    <EditToDo todo={todo} setWatchTodos={setWatchTodos}/>
                   </td>
                   <td>
                     <button

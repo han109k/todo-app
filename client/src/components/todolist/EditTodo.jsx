@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 
-const EditToDo = ({ todo }) => {
+const EditToDo = ({ todo, setWatchTodos }) => {
   const [description, setDescription] = useState(todo.description);
 
   const editDescription = async(id) => {
     try {
 
+      const customHeaders = new Headers(); // fetch API
+
+      customHeaders.append("Content-Type", "application/json");
+      customHeaders.append("token", localStorage.token);
+
       const body = {description}
 
-      const res = await fetch(`http://localhost:3001/todo/${id}`, {
+      const res = await fetch(`http://localhost:3001/dashboard/todos/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json"},
+        headers: customHeaders,
         body: JSON.stringify(body)
       });
 
       console.log(res);
+
+      setWatchTodos(true);
+
     } catch (error) {
       console.error(error.message);
     }
