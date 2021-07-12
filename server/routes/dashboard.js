@@ -15,7 +15,7 @@ router.get("/", authorize, async (req, res) => {
 
     console.log(user.rows);
 
-    res.json(user.rows);
+    res.status(200).json(user.rows);
 
   } catch (err) {
     console.error(err.message);
@@ -35,7 +35,7 @@ router.post("/todos", authorize, async (req, res) => {
       [req.user.id, description]
     );
 
-    res.json(newTodo.rows[0]);
+    res.status(200).json(newTodo.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
@@ -52,11 +52,11 @@ router.put("/todos/:id", authorize, async (req, res) => {
     );
 
     if (updateTodo.rows.length === 0) {
-      return res.json("Editing is unauthorized!");
+      return res.status(401).json("Editing is unauthorized!");
     }
 
     console.log("Updated ", updateTodo);
-    res.json("Updated");
+    res.status(200).json("Updated");
   } catch (error) {
     console.error(error);
   }
@@ -72,11 +72,11 @@ router.delete("/todos/:id", authorize, async (req, res) => {
     );
 
     if (deleteTodo.rows.length === 0) {
-      return res.json("Deleting is unauthorized!");
+      return res.status(401).json("Deleting is unauthorized!");
     }
 
     console.log("Deleted ", deleteTodo);
-    res.json("Deleted");
+    res.status(200).json("Deleted");
   } catch (error) {
     console.log(error);
   }

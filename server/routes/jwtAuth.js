@@ -41,7 +41,7 @@ router.post("/register", validInfo, async (req, res) => {
     // todo: generate jwt token
     const token = jwtGenerator(newUser.rows[0].user_id);
 
-    res.json({ token });
+    res.status(200).json({ token });
 
   } catch (error) {
     console.error(error.message);
@@ -80,7 +80,7 @@ router.post("/login", validInfo, async (req, res) => {
 
     // todo: generate jwt token
     const token = jwtGenerator(user.rows[0].user_id);
-    res.json({ token });
+    res.status(200).json({ token });
     
   } catch (error) {
     console.error(error.message);
@@ -89,7 +89,7 @@ router.post("/login", validInfo, async (req, res) => {
 
 router.post("/verify", authorize, (req, res) => {
   try {
-    res.json(true);
+    res.status(200).json(true);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server error");
