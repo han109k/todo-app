@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useGlobalContext } from "../../context/TodoProvider";
 
-const Login = ({ setAuth }) => {
+const Login = () => {
+  const { dispatch } = useGlobalContext();
+
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -32,9 +35,10 @@ const Login = ({ setAuth }) => {
         localStorage.setItem("token", parseRes.token);
 
         toast.success(`Welcome back!`);
-        setAuth(true);
+        dispatch({ type: "AUTH", payload: true });
       } else {
-        setAuth(false);
+        dispatch({ type: "AUTH", payload: false });
+
         toast.error(parseRes);
       }
     } catch (error) {
@@ -43,32 +47,43 @@ const Login = ({ setAuth }) => {
   };
 
   return (
-    <>
+    <div className="container">
       <h1 className="display-3 text-center mt-5">Login</h1>
 
       <form onSubmit={onSubmitForm}>
-        <label className="form-label" htmlFor="text">
-          Email
-        </label>
-        <input
-          className="form-control mb-3"
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-          required
-        />
-        <label className="form-label" htmlFor="text">
-          Password
-        </label>
-        <input
-          className="form-control mb-3"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
-          required
-        />
+        <div className="row justify-content-center">
+          <div className="col-8">
+            <label className="form-label" htmlFor="text">
+              Email
+            </label>
+            <input
+              className="form-control mb-3"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+              required
+            />
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-8">
+            <label className="form-label" htmlFor="text">
+              Password
+            </label>
+            <input
+              className="form-control mb-5"
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) =>
+                setInputs({ ...inputs, password: e.target.value })
+              }
+              required
+            />
+          </div>
+        </div>
+
         <div className="text-center">
           <button className="btn btn-success">Login</button>
         </div>
@@ -79,7 +94,7 @@ const Login = ({ setAuth }) => {
           </Link>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

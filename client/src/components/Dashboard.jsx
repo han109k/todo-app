@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useGlobalContext } from "../context/TodoProvider";
 
 import InputTodo from "./todolist/InputTodo";
 import ListTodo from "./todolist/ListTodo";
 
-const Dashboard = ({ setAuth }) => {
-  const [name, setName] = useState("");
-  const [todoList, setTodoList] = useState([]);
-  const [watchTodos, setWatchTodos] = useState(false);
+const Dashboard = () => {
+  const { name, todoList, watchTodos, dispatch } = useGlobalContext();
 
   async function getName() {
     try {
@@ -18,38 +17,26 @@ const Dashboard = ({ setAuth }) => {
 
       const parseRes = await response.json();
 
-      console.log("Dashboard ", parseRes)
+      console.log("Dashboard ", parseRes);
 
-      setName(parseRes[0].user_name);
-      setTodoList(parseRes);
-
+      dispatch({ type: "GET-INFO", payload: parseRes });
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  const logout = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    setAuth(false);
-    toast.info(`Logged out`);
-  };
-
   useEffect(() => {
     getName();
-    setWatchTodos(false);
+    dispatch({ type: "WATCH", payload: false });
   }, [watchTodos]);
 
   return (
     <>
-      <div className="d-flex justify-content-end">
-        <button className="btn btn-warning" onClick={logout}>
-          Logout
-        </button>
+      <div className="container">
+        <h2 className="display-5 text-center">{name}'s Todo List</h2>
+        <InputTodo />
+        <ListTodo data={todoList} />
       </div>
-      <h2 className="display-5 text-center">{name}'s todo list</h2>
-      <InputTodo setWatchTodos={setWatchTodos} />
-      <ListTodo data={todoList} setWatchTodos={setWatchTodos}/>
     </>
   );
 };

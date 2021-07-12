@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useGlobalContext } from "../../context/TodoProvider";
 
-const EditToDo = ({ todo, setWatchTodos }) => {
+const EditToDo = ({ todo }) => {
+  const { dispatch } = useGlobalContext();
   const [description, setDescription] = useState(todo.description);
 
   const editDescription = async(id) => {
@@ -20,8 +22,8 @@ const EditToDo = ({ todo, setWatchTodos }) => {
       });
 
       console.log(res);
-
-      setWatchTodos(true);
+      
+      dispatch({type: "WATCH", payload: true});
 
     } catch (error) {
       console.error(error.message);
@@ -33,11 +35,11 @@ const EditToDo = ({ todo, setWatchTodos }) => {
       {/* Button trigger modal */}
       <button
         type="button"
-        className="btn btn-sm btn-info"
+        className="btn btn-sm btn-info py-0"
         data-bs-toggle="modal"
         data-bs-target={`#id${todo.todo_id}`}
       >
-        Edit
+        Update
       </button>
 
       {/* Modal */}

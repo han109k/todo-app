@@ -9,11 +9,14 @@ router.get("/", authorize, async (req, res) => {
 
     // SQL Alias: user as u
     const user = await db.query(
-      "SELECT u.user_name, t.todo_id, t.description FROM users AS u LEFT JOIN todos as t ON u.user_id = t.user_id WHERE u.user_id = $1",
+      "SELECT u.user_name, t.todo_id, t.description, t.entry_date FROM users AS u LEFT JOIN todos as t ON u.user_id = t.user_id WHERE u.user_id = $1",
       [req.user.id]
     );
 
+    console.log(user.rows);
+
     res.json(user.rows);
+
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
