@@ -1,7 +1,8 @@
 const { Pool } = require('pg')
 
+// temporarily removed .env
 const pool = new Pool({
-  user: "postgres",
+  user: "ubuntu",
   password: "asd1234",
   host: "localhost",
   port: 5432,

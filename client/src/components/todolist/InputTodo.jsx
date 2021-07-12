@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useGlobalContext } from "../../context/TodoProvider";
+import TodoCaller from "../api/TodoCaller";
 
 const InputTodo = () => {
   const { dispatch } = useGlobalContext();
@@ -8,6 +9,7 @@ const InputTodo = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
+      const url = TodoCaller + "/dashboard/todos";
       const customHeaders = new Headers(); // fetch API
 
       customHeaders.append("Content-Type", "application/json");
@@ -15,7 +17,7 @@ const InputTodo = () => {
 
       const body = { description };
       console.log(body);
-      const response = await fetch("http://localhost:3001/dashboard/todos", {
+      const response = await fetch(url, {
         method: "POST",
         headers: customHeaders,
         body: JSON.stringify(body),

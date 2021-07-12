@@ -8,17 +8,21 @@ import {
   Redirect,
 } from "react-router-dom";
 
+// Components
 import Dashboard from "./components/Dashboard";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Landing from "./components/Landing";
+import TodoCaller from "./components/api/TodoCaller";
 
 function App() {
   const { isAuthenticated, dispatch } = useGlobalContext();
 
   async function isAuth() {
+
+    const url = TodoCaller + "/auth/verify";
     try {
-      const response = await fetch("http://localhost:3001/auth/verify", {
+      const response = await fetch(url, {
         method: "POST",
         headers: { token: localStorage.token },
       });
@@ -42,7 +46,7 @@ function App() {
 
   return (
     <>
-      <Router>
+      <Router basename="/playground/todo-pern">
         <Switch>
           <Route exact path="/">
             {!isAuthenticated ? <Landing /> : <Redirect to="/dashboard" />}

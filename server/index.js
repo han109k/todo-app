@@ -9,10 +9,11 @@ app.use(express.json()); // allows us to access the req.body
 
 // ROUTES
 // register and login routes
-app.use("/auth", jwtAuth);
+app.use("/api/v2/auth", jwtAuth);
 
-app.use("/dashboard", dashboard);
+app.use("/api/v2/dashboard", dashboard);
 
-app.listen(3001, () => {
-  console.log("Listening on port : 3001");
+const port = 5001;
+app.listen(port, () => {
+  console.log(`Listening on port : ${port}`);
 });

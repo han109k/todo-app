@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useGlobalContext } from "../../context/TodoProvider";
+import TodoCaller from "../api/TodoCaller";
 
 const EditToDo = ({ todo }) => {
   const { dispatch } = useGlobalContext();
@@ -7,7 +8,7 @@ const EditToDo = ({ todo }) => {
 
   const editDescription = async(id) => {
     try {
-
+      const url = TodoCaller + `/dashboard/todos/${id}`;
       const customHeaders = new Headers(); // fetch API
 
       customHeaders.append("Content-Type", "application/json");
@@ -15,7 +16,7 @@ const EditToDo = ({ todo }) => {
 
       const body = {description}
 
-      const res = await fetch(`http://localhost:3001/dashboard/todos/${id}`, {
+      const res = await fetch(url, {
         method: "PUT",
         headers: customHeaders,
         body: JSON.stringify(body)

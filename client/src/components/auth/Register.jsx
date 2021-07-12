@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useGlobalContext } from "../../context/TodoProvider";
+import TodoCaller from "../api/TodoCaller";
 
-const Register = ({ setAuth }) => {
+const Register = () => {
   const { dispatch } = useGlobalContext();
 
   const [inputs, setInputs] = useState({
@@ -17,9 +18,10 @@ const Register = ({ setAuth }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const url = TodoCaller + "/auth/register";
       const body = { name, email, password };
 
-      const response = await fetch("http://localhost:3001/auth/register", {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

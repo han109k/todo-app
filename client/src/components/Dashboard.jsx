@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { toast } from "react-toastify";
 import { useGlobalContext } from "../context/TodoProvider";
 
+// Components
 import InputTodo from "./todolist/InputTodo";
 import ListTodo from "./todolist/ListTodo";
+import TodoCaller from "./api/TodoCaller";
 
 const Dashboard = () => {
   const { name, todoList, watchTodos, dispatch } = useGlobalContext();
 
   async function getName() {
     try {
-      const response = await fetch("http://localhost:3001/dashboard", {
+      const url = TodoCaller + "/dashboard";
+      const response = await fetch(url, {
         method: "GET",
         headers: { token: localStorage.token },
       });

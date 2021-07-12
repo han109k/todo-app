@@ -1,17 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
     <div className="container">
       <div className="p-5 mb-4 bg-white rounded-3">
         <div className="container-fluid py-5">
-          <h1 className="display-5 fw-bold">Todo App</h1>
+          <h1 className="display-5 fw-bold">TODO App</h1>
           <p className="col-md-8 fs-4">
-            Using a series of utilities, you can create this todo list.
+            Start using todo lists to create your work or study program.
           </p>
-          <a className="btn btn-primary btn-lg" href="/login">
-            Sign In
-          </a>
+          <Link to="/login">
+            <button className="btn btn-primary btn-lg" type="button">
+              Sign In
+            </button>
+          </Link>
         </div>
       </div>
     </div>

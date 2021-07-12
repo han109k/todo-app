@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import EditToDo from "./EditTodo";
+import TodoCaller from "../api/TodoCaller";
 
 const ListTodo = ({ data }) => {
   const [todos, setTodos] = useState([]);
 
   const deleteTodo = async (id) => {
     try {
-      await fetch(`http://localhost:3001/dashboard/todos/${id}`, {
+      const url = TodoCaller + `/dashboard/todos/${id}`;
+      await fetch(url, {
         method: "DELETE",
         headers: { token: localStorage.token },
       });
